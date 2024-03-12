@@ -48,7 +48,7 @@ public class RaiderSpawnerScript : MonoBehaviour
             float spawnLocalScale = Random.Range(0.08f, 0.14f);
 
             if (tempSpawnLoc.Contains(spawnLocations[spawnLocIndex])) {
-                spawnLocIndex = Random.Range(0, spawnLocations.Length - 1);
+                spawnLocIndex = Random.Range(0, spawnLocations.Length);
                 tempSpawnLoc.Add(spawnLocations[spawnLocIndex]);
             } else {
                 tempSpawnLoc.Add(spawnLocations[spawnLocIndex]);
