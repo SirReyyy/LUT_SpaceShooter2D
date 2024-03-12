@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class RaiderSpawnerScript : MonoBehaviour
@@ -14,7 +15,7 @@ public class RaiderSpawnerScript : MonoBehaviour
 
     private bool canSpawn = true;
 
-    public float maxTime = 5.0f;
+    public float maxTime = 30.0f;
     private float timer = 0.0f;
 
 
@@ -23,38 +24,39 @@ public class RaiderSpawnerScript : MonoBehaviour
     } //-- start end
 
     void Update() {
-        
+        if (timer > maxTime) {
+            canSpawn = true;
+            timer = 0;
+        }
+        timer += Time.deltaTime;
     } //-- Update end
 
     void FixedUpdate() {
         if (canSpawn) {
             canSpawn = false;
-            
             SpawnRaiders();
-
-            /*
-            int spawnCount = Random.Range(2, 5);
-
-            for(int i = 0; i < spawnCount; i++) {
-                int raiderIndex = Random.Range(0, raidersPrefab.Length);
-                int spawnLocIndex = Random.Range(0, spawnLocations.Length);
-
-                GameObject raiderSpawnedPrefab = Instantiate(raidersPrefab[raiderIndex], raiderHolder);
-                raiderSpawnedPrefab.transform.position = spawnLocations[spawnLocIndex].position;
-            }
-            */
         }
     } //-- FixedUpdate end
 
     private void SpawnRaiders() {
-        int spawnCount = Random.Range(2, 5);
+        List<Transform> tempSpawnLoc = new List<Transform>();
+        int spawnCount = Random.Range(3, 8);
 
         for(int i = 0; i < spawnCount; i++) {
-            int raiderIndex = Random.Range(0, raidersPrefab.Length - 1);
+            int raiderIndex = Random.Range(0, raidersPrefab.Length);
             int spawnLocIndex = Random.Range(0, spawnLocations.Length);
+            float spawnLocalScale = Random.Range(0.08f, 0.14f);
+
+            if (tempSpawnLoc.Contains(spawnLocations[spawnLocIndex])) {
+                spawnLocIndex = Random.Range(0, spawnLocations.Length - 1);
+                tempSpawnLoc.Add(spawnLocations[spawnLocIndex]);
+            } else {
+                tempSpawnLoc.Add(spawnLocations[spawnLocIndex]);
+            }
 
             GameObject raiderSpawnedPrefab = Instantiate(raidersPrefab[raiderIndex], raiderHolder);
             raiderSpawnedPrefab.transform.position = spawnLocations[spawnLocIndex].position;
+            raiderSpawnedPrefab.transform.localScale = new Vector3(spawnLocalScale, spawnLocalScale, spawnLocalScale);
 
             _raiderScript = raiderSpawnedPrefab.GetComponent<RaiderScript>();
 

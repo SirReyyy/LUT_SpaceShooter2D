@@ -9,8 +9,8 @@ public class RaiderScript : MonoBehaviour
     [SerializeField]
     private SpriteRenderer raiderSpriteRenderer;
     private float moveSpeed;
-    private float timer = 0, maxTime = 10.0f;
-    public float minSpeed = 3.0f, maxSpeed = 8.0f;
+    private float timer = 0, maxTime = 12.0f;
+    public float minSpeed = 4.0f, maxSpeed = 10.0f;
 
 
     private void Awake() {
@@ -20,17 +20,15 @@ public class RaiderScript : MonoBehaviour
     void Start() {
         _singletonManager = Singleton.Instance;
     } //-- start end
-
+    
     void Update() {
+        transform.position += new Vector3(-moveSpeed * Time.deltaTime, 0, 0);
+
         timer += Time.deltaTime;
         if (timer > maxTime) {
             Destroy(this.gameObject);
         }
-    } //-- Update
-
-    void FixedUpdate() {
-        transform.position += new Vector3(-moveSpeed * Time.deltaTime, 0, 0);
-    } //-- FixedUpdate end
+    } //-- Update end
 
     public void SetDirection(bool isRight) {
         moveSpeed = Random.Range(minSpeed, maxSpeed);
