@@ -16,14 +16,16 @@ public class UICanvasScript : MonoBehaviour
     public GameObject _titlePanel;
     public GameObject _gamePanel;
 
-    // public TMP_Text biocreditsText;
+    public Slider timerSlider;
+    public TMP_Text biocreditsText;
     // public TMP_Text shotsRemText;
     public GameObject _scorePanel;
 
+    /*
     [Header("Player Prefab")]
     public GameObject playerPrefab;
     private GameObject player;
-
+    */
     
 
     void Start() {
@@ -35,8 +37,7 @@ public class UICanvasScript : MonoBehaviour
 
 
     void Update() {
-        // shotsRemText.text = _singletonManager.shotsRemaining.ToString();
-        // biocreditsText.text = _singletonManager.currentScore.ToString();
+        biocreditsText.text = _singletonManager.currentScore.ToString();
 
         /*
         if (_singletonManager.gameState == Singleton.GameState.TitleState) {
@@ -76,7 +77,7 @@ public class UICanvasScript : MonoBehaviour
 
     void FixedUpdate() {
         // if (_singletonManager.gameState == Singleton.GameState.PlayState) {
-
+            timerSlider.value -= 0.1f;
         // }
     } //-- FixedUpdate end
 
